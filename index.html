@@ -21,14 +21,22 @@
   }
   </style>
   <script language"javascript">
+    const selectNode = (node) => {
+      const selection = window.getSelection()
+      const range = document.createRange()
+      range.selectNodeContents(node)
+      selection.removeAllRanges()
+      selection.addRange(range)
+    }
+
     window.onload = () => {
       // window.alert("Hello! Thank you for visiting my page. Look around")
       console.log("_____ !!! _____\n\n\nCheck out document source too\n\n\n_____ !!! _____")
       window.jQuery = document.querySelector
       window.okJustJoking;
 
-      document.selection
-
+      let body = document.querySelector('body')
+      selectNode(body)
     }
   </script>
 </head>
