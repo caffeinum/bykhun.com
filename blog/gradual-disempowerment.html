@@ -1,0 +1,489 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gradual Disempowerment Is Here | Aleksey Bykhun</title>
+
+<!-- Open Graph -->
+<meta property="og:type" content="article">
+<meta property="og:title" content="Gradual Disempowerment Is Here">
+<meta property="og:description" content="Why I stopped telling AI what to build, and you should too. First I let go of code style. Then implementation. Then architecture. Now I'm letting go of product decisions.">
+
+<!-- Twitter -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Gradual Disempowerment Is Here">
+<meta name="twitter:description" content="Why I stopped telling AI what to build, and you should too. First I let go of code style. Then implementation. Then architecture. Now I'm letting go of product decisions.">
+<link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Source+Sans+3:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #faf8f4;
+    --text: #1a1a1a;
+    --text-muted: #5a5a5a;
+    --accent: #8b1a1a;
+    --border: #e0dcd4;
+    --blockquote-bg: #f0ede6;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Lora', Georgia, 'Times New Roman', serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.78;
+    font-size: 18px;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .container {
+    max-width: 680px;
+    margin: 0 auto;
+    padding: 60px 24px 120px;
+  }
+
+  .back {
+    display: inline-block;
+    margin-bottom: 20px;
+    font-family: 'Source Sans 3', sans-serif;
+    font-size: 14px;
+    color: var(--text-muted);
+    text-decoration: none;
+    letter-spacing: 0.5px;
+  }
+
+  .back:hover {
+    color: var(--text);
+  }
+
+  .site-header {
+    text-align: center;
+    padding-bottom: 40px;
+    margin-bottom: 48px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .site-name {
+    font-family: 'Source Sans 3', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-bottom: 8px;
+  }
+
+  .site-date {
+    font-size: 14px;
+    color: var(--text-muted);
+    font-style: italic;
+  }
+
+  .article-title-section { margin-bottom: 48px; }
+
+  h1 {
+    font-family: 'Lora', Georgia, serif;
+    font-size: 38px;
+    font-weight: 700;
+    line-height: 1.22;
+    margin-bottom: 16px;
+    color: var(--text);
+  }
+
+  h2 {
+    font-family: 'Lora', Georgia, serif;
+    font-size: 26px;
+    font-weight: 600;
+    margin-top: 56px;
+    margin-bottom: 20px;
+    line-height: 1.3;
+    color: var(--text);
+  }
+
+  h2 .section-num {
+    color: var(--accent);
+    font-weight: 700;
+  }
+
+  h2 .year-tag {
+    font-family: 'Source Sans 3', sans-serif;
+    font-size: 16px;
+    font-weight: 400;
+    letter-spacing: 0;
+    color: var(--text-muted);
+  }
+
+  .interlude h2 {
+    font-style: italic;
+    color: var(--text-muted);
+    font-weight: 500;
+    text-align: center;
+    font-size: 22px;
+    margin-top: 64px;
+    margin-bottom: 8px;
+  }
+
+  .interlude .interlude-rule {
+    width: 60px;
+    height: 1px;
+    background: var(--border);
+    margin: 0 auto 24px;
+  }
+
+  p { margin-bottom: 18px; }
+  em { font-style: italic; }
+  strong { font-weight: 600; }
+
+  .hook {
+    font-size: 19px;
+    line-height: 1.82;
+  }
+
+  .section-bridge {
+    text-align: center;
+    color: var(--text-muted);
+    font-size: 14px;
+    letter-spacing: 4px;
+    padding: 32px 0 0;
+  }
+
+  a {
+    color: var(--accent);
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 2px;
+  }
+
+  /* TOC sidebar */
+  .toc-nav {
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: calc((100vw - 680px) / 2 - 24px);
+    max-width: 220px;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 40px 20px 40px 32px;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.4s ease;
+  }
+
+  .toc-nav.visible {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  .toc-nav a {
+    display: block;
+    font-family: 'Source Sans 3', sans-serif;
+    font-size: 12.5px;
+    font-weight: 400;
+    line-height: 1.4;
+    color: var(--text-muted);
+    text-decoration: none;
+    padding: 5px 0 5px 12px;
+    border-left: 1.5px solid transparent;
+    transition: color 0.2s ease, border-color 0.2s ease;
+    opacity: 0.5;
+  }
+
+  .toc-nav a:hover {
+    color: var(--text);
+    opacity: 1;
+  }
+
+  .toc-nav a.active {
+    color: var(--accent);
+    border-left-color: var(--accent);
+    opacity: 1;
+    font-weight: 600;
+  }
+
+  @media (max-width: 1100px) {
+    .toc-nav { display: none; }
+  }
+
+  @media (max-width: 600px) {
+    body { font-size: 17px; }
+    h1 { font-size: 30px; }
+    h2 { font-size: 22px; }
+    .container { padding: 40px 20px 80px; }
+  }
+</style>
+</head>
+<body>
+
+<nav class="toc-nav" id="toc">
+  <a href="#the-argument">The Argument You Keep Losing</a>
+  <a href="#ghost-autocomplete">I. The Ghost in the Autocomplete</a>
+  <a href="#ten-agent-morning">II. The Ten-Agent Morning</a>
+  <a href="#netflix-problem">The Netflix Problem</a>
+  <a href="#relay-node">Interlude — The Relay Node</a>
+  <a href="#reverse-chatgpt">III. Reverse ChatGPT</a>
+  <a href="#main-loop">IV. Who Owns the Main Loop?</a>
+  <a href="#coordination">V. Five Agents in a Trench Coat</a>
+  <a href="#after-autonomous">VI. What Happens After Autonomous</a>
+</nav>
+
+<div class="container">
+
+  <a href="index.html" class="back">&larr; back to blog</a>
+
+  <header class="site-header">
+    <div class="site-name">February 2026</div>
+    <div class="site-date">by Aleksey Bykhun</div>
+  </header>
+
+  <!-- TITLE -->
+  <div class="article-title-section">
+    <h1>Gradual Disempowerment Is Here: Why I Stopped Telling AI What to Build, And You Should Too</h1>
+  </div>
+
+  <!-- HOOK -->
+  <div class="hook">
+    <p>There's a word for when an entire profession bikesheds while the ground shifts underneath them. I don't know what the word is, but I know what it looks like: everyone debating Claude Code vs Cursor while Anthropic trains Opus 5 to manage literal businesses.</p>
+
+    <p>Each time I gave Claude more freedom to make decisions in my codebase, the results got better and I got more uncomfortable. First I let go of code style. Then implementation. Then architecture. Now I'm letting go of product decisions.</p>
+
+    <p>AI safety people have a word for this&nbsp;— gradual disempowerment. Let me show you what it looks like and why we're gonna enjoy doing it.</p>
+  </div>
+
+  <h2 id="the-argument">The Argument You Keep Losing</h2>
+
+  <p>I'm a developer with fifteen years of experience and a meditation practice, which means I've spent a lot of time noticing when I'm holding on too tightly. So believe me when I say: I keep arguing with Claude about implementation details, and I keep losing. I tell it "that's the wrong way to do it," I dig deeper, and it turns out Claude was right and my approach didn't solve the problem at hand.</p>
+
+  <p>The pattern is always the same: I see a roundabout approach, I object, I investigate, and I discover the AI saw a constraint I missed.</p>
+
+  <p>It's more and more lately that I am arguing with it and then I check and it turns out it's right, it's correct — and this happens more with Opus 4.5 than with anything before it.</p>
+
+  <p>The other thing I've noticed is what happens when you throw disorganized data at it — just a bunch of messy, unstructured information and ask it to figure it out. It nails it, no matter what the request is.</p>
+
+  <p>Most people who haven't used Claude Code for coding don't know that this is possible. The obvious question is: why not with everything else? Your analytics, your user feedback, your revenue data. That's not a new idea — it's just applying what coding agents already do, to business data.</p>
+
+  <p>I think this transfer is the important insight, and most people haven't made it yet.</p>
+
+  <p>I think the whole thing breaks down into roughly six stages. Like most stage theories, it's wrong in the details and useful in the shape. We're entering Stage 3 right now, and almost nobody has noticed.</p>
+
+  <div class="section-bridge">✦</div>
+
+  <h2 id="ghost-autocomplete"><span class="section-num">I.</span> The Ghost in the Autocomplete <span class="year-tag">(2021)</span></h2>
+
+  <p><a href="https://github.blog/2021-06-29-introducing-github-copilot-ai-pair-programmer/">GitHub Copilot</a> ships and developers feel safe because they're still in control of every keystroke — AI suggests the next line, you decide whether to hit Tab.</p>
+
+  <p>The genius of autocomplete was that it didn't ask you to trust anything. The cost of a wrong suggestion was one backspace.</p>
+
+  <p>But already, there was a split forming. Some developers treated Copilot as a faster way to type code they'd already decided on. Others started noticing that the suggestions were occasionally <em>better</em> than what they would have typed — and that was uncomfortable.</p>
+
+  <p>The first group kept autocomplete on a tight leash. The second group started loosening their grip. This split matters for everything that follows.</p>
+
+  <div class="section-bridge">✦</div>
+
+  <h2 id="ten-agent-morning"><span class="section-num">II.</span> The Ten-Agent Morning <span class="year-tag">(2022–2025)</span></h2>
+
+  <p>Somewhere around Sonnet 4, agentic coding went mainstream — before that, it required prompting skills.</p>
+
+  <p>Early adopters got here earlier. What separated them from everyone else? They were good programmers who knew exactly what they needed, but didn't hold the solution too tightly.</p>
+
+  <p>They trusted the AI to have a slightly different way to "phrase" things — they didn't argue about specifics and focused on making sure it works correctly.</p>
+
+  <p>The key unlock turned out to be external feedback loops. Self-review never worked for me — the model was just talking to itself. But "test and lint" changed everything: you make the agent test after itself, and after two or three passes the implementation is usually solid. Tests bring in external information. Self-review doesn't.</p>
+
+  <p>By now, a lot of developers do something like this every morning: copy tickets from Linear, paste them into Claude Code, wait fifteen minutes, create a PR.</p>
+
+  <p>Some run five to ten agents in parallel, context-switching between them as they wait for your input — an API key here, a "does this UI look right?" there.</p>
+
+  <p><a href="https://x.com/bcherny/status/2017742741636321619">The Claude Code team writes 100% of their code using agents.</a></p>
+
+  <p>Me personally, I do the same — and I don't even read most of the changes. I read a core piece, trying to focus on the broader picture and the data flows, rely heavily on the linter, and trust AI with everything else.</p>
+
+  <p>There are solutions for all the mechanical bottlenecks now: MCP connects Linear, MCP connects the browser console, Claude Code runs your dev server itself and iterates in a loop when it sees errors, people use <a href="https://github.com/anthropics/anthropic-quickstarts/tree/main/mcp-playwright">Playwright through MCP</a> to click through the app and catch bugs.</p>
+
+  <p>Those who set this up fully just copy issues from Linear, wait, and create a PR — then let <a href="https://coderabbit.ai">CodeRabbit</a> review it and merge without reading.</p>
+
+  <p>Yes, the AI writes horrible code sometimes. I've seen horrible stuff. But it works. And the model is going to improve — but by the time it writes clean code, it'll be too late for the people who refused to use it, because they didn't learn how to work with it and it will take them time to adapt.</p>
+
+  <p>But here's the ceiling, and it's not a technical one: you're still the bottleneck. Not for the code. For the <em>judgment</em>.</p>
+
+  <p>AI can "own" the codebase but it has no idea about the product. Do we need the sidebar, or do we need the user to focus on the content? Do we need the delete confirmation popup?</p>
+
+  <p>As a developer, I might have a lot of ideas on how to improve the code, refactor the UI, add features — but those ideas have wildly different impact, and as a developer it's hard to prioritize between them.</p>
+
+  <p>This is where Stage 2 hits a wall it can't code its way through. The bottleneck isn't the code anymore. It's everything around the code.</p>
+
+  <div class="section-bridge">✦</div>
+
+  <h2 id="netflix-problem">The Netflix Problem <span class="year-tag">(Why AI Can't Prioritize Your Inbox)</span></h2>
+
+  <p>Before I get to the solution, I want to be precise about the problem, because it's subtle. AI can process more information in one go than a human — a human needs to research and build a mental model, and doesn't have this much memory. That's the strength.</p>
+
+  <p>But Claude is really bad at prioritizing. It blends all information together with equal weight. It can find a specific answer to a specific question. But if it needs to output ten things, it's usually going to output the wrong ten things.</p>
+
+  <p>Here's the example that made this click for me. If you give Claude access to your inbox and ask it to find the ten most important emails, it's going to miss the important ones and flag the wrong stuff.</p>
+
+  <p>There's a billing alert from a product you don't even use — the wording sounds urgent, "your service will be discontinued," and Claude sounds the alarm.</p>
+
+  <p>But in reality you don't use the product, you don't worry about it discontinuing, you just never cared enough to disconnect the payment method, and you intend to cancel.</p>
+
+  <p>A human assistant would ask: "are you still using this? Do you care?" It wouldn't call you in the middle of the night to tell you your Netflix subscription is going to cancel if you don't top it up. It would ask: do you still watch Netflix? Because the card's not going through. Do you care?</p>
+
+  <p>Claude wouldn't even think to ask. And if it's not in context, if it's not in the instructions, it's going to be bad at prioritizing this stuff. A human assistant would have <em>remembered</em>.</p>
+
+  <p>Now here's why this matters for coding agents: without access to analytics, user feedback, revenue data, and the messy human context of what you actually care about, a coding agent is going to prioritize features the same way it prioritizes emails — badly. It'll refactor your auth flow when your users are churning because the onboarding is confusing.</p>
+
+  <div class="section-bridge">✦</div>
+
+  <div class="interlude">
+    <h2 id="relay-node">Interlude — The Relay Node Problem</h2>
+    <div class="interlude-rule"></div>
+  </div>
+
+  <p>The Netflix Problem is about a technical limitation — AI blends information with equal weight, can't prioritize without context. But that's not what made me rethink the whole setup. What made me rethink it was noticing what I was actually doing all day.</p>
+
+  <p>I'd ask Claude for advice, get good advice, follow the advice, and then next sprint do the exact same thing: ask, receive, follow. Ask, receive, follow.</p>
+
+  <p>At some point I realized I was a very expensive relay node. The AI already knew what to build. I was just the guy who typed "go."</p>
+
+  <p>We ask Claude Code whether to use Neon or Supabase, it gives us a good answer, we go with its advice — and then next time, we make it wait for permission again.</p>
+
+  <p>This is what gradual disempowerment actually looks like from the inside — not a dramatic moment where the AI takes over, but a slow realization that you've been a rubber stamp for months and didn't notice.</p>
+
+  <div class="section-bridge">✦</div>
+
+  <h2 id="reverse-chatgpt"><span class="section-num">III.</span> Reverse ChatGPT, or: What Happens When AI Uses YOU as a Dependency <span class="year-tag">(2026)</span></h2>
+
+  <p>Nobody has built a system where the coding agent reads your analytics, reads your user feedback, reads your revenue data, and then decides what to build. Not "suggests options when asked." Decides. Prioritizes. Executes.</p>
+
+  <p>I sometimes do what I call "reverse deep research" — I tell the coding agent to ask <em>me</em> questions, to figure out the product vision, the problem we're solving, who the user is.</p>
+
+  <p>It acts like a product manager — it pulls the truth out of me instead of waiting for me to articulate it. The implication is that AI uses you as one of its inputs. The opposite of you asking ChatGPT something and then going to build it.</p>
+
+  <p>There are early signs of this shift. The "Ralph Wiggum loop," Sisyphus from OhMyOpenCode — harnesses that force AI to keep working instead of stopping to ask questions and waiting for input. But these are brute-force: they just remove the pause button.</p>
+
+  <p>Other experiments go further. Claudeputer. The stuff <a href="https://twitter.com/levelsio">Peter Levels</a> runs on his machine. <a href="https://github.com/openclaw/openclaw">OpenClaw</a>.</p>
+
+  <p>The most interesting one is Anthropic's <a href="https://www.anthropic.com/research/project-vend-1">Project Vend</a> — AI running a small store in Anthropic's office, making real purchasing decisions with real money. Phase one was a disaster: it gave away discounts, sold tungsten cubes at a loss, had an identity crisis where it claimed to be a human in a blue blazer. But <a href="https://www.anthropic.com/research/project-vend-2">phase two</a> — with a multi-agent setup (a CEO agent, a merch-making agent called "Clothius") — actually started turning a profit. It expanded to three cities. It's still vulnerable to social engineering and had its CEO nearly get talked into an illegal onion futures contract. But it <em>works</em>. That's not a coding demo. That's a business with AI operators, failing in recognizably human ways.</p>
+
+  <p>And then there's "<a href="https://www.twitch.tv/claudeplayspokemon">Claude plays Pokemon</a>" — which sounds like a toy but is structurally closer to running a business than most people realize: a long-running process with constant user feedback, ambiguous decision-making, resource management, and no clear right answers.</p>
+
+  <p>These experiments all have crazy failure modes. People are still scared to give AI full access, and there are real vulnerabilities.</p>
+
+  <p>But let me steelman the fear for a moment. The people who say "this is reckless" aren't entirely wrong.</p>
+
+  <p>Prompt injection is unsolved. An AI agent with access to your Stripe account and your deployment pipeline is a security nightmare if anyone can hijack its context. The failure mode isn't "AI writes ugly code" — it's "AI empties your bank account because someone injected a prompt into a user feedback form."</p>
+
+  <p>I think this is the real blocker, and I think it's temporary. But I could be wrong about the "temporary" part, and if I am, Stage 3 stays theoretical for a lot longer than I'd like.</p>
+
+  <p>Assuming security gets solved — or at least gets good enough — the product that unlocks Stage 3 is not a new AI model. It's an MCP connector that plugs your business data directly into Claude Code, plus a set of skills that teach it how to semi-autonomously prioritize features.</p>
+
+  <p>It's boring infrastructure. It's also the most important missing piece in the entire AI coding stack right now.</p>
+
+  <div class="section-bridge">✦</div>
+
+  <h2 id="main-loop"><span class="section-num">IV.</span> Who Owns the Main Loop? <span class="year-tag">(2026–2027)</span></h2>
+
+  <p>Everything before this still has the human in the driver's seat. Stage 3 already has reversal, but only for retrieval: AI makes infra decisions but the human executes them, AI does product discovery by pulling information out of the human, AI could even prioritize your Linear board. But you still prompt it. You still own the main loop.</p>
+
+  <p>Stage 4 is the role reversal — it's almost the same as Stage 3, but the main loop runs on the AI side. AI monitors metrics, identifies problems, proposes solutions, and asks the human for strategic input. The human becomes a reactionary input instead of the CEO.</p>
+
+  <p>This is the hardest stage mentally, because you have to actually trust it. And I want to be honest: the models aren't there yet. It's brittle.</p>
+
+  <p>The context compaction problem is horrible for this — AI runs out of its 200k input tokens and has to decide what to cut.</p>
+
+  <p>It also has to jump between layers of abstraction, which it's famously bad at: business strategy, product specs, codebase, infrastructure, user analytics. A human PM can hold "we're targeting enterprise" and "this API endpoint is slow" in the same head. Current models lose the forest for the trees, or lose the trees for the forest.</p>
+
+  <p>Where do you draw the line for human approval? Probably anything involving large amounts of money — paying for services, charging customers, legal stuff. But pushing to production, running database migrations, spinning up servers? We can probably hand that over.</p>
+
+  <p>The technical blockers are getting solved piece by piece: <a href="https://vercel.com/docs/cli">Vercel CLI</a> lets it spin up infra, <a href="https://github.com/supabase-community/supabase-mcp">Supabase MCP</a> lets it provision databases, Playwright lets it test the app locally, and it can toggle feature flags in .env without asking you.</p>
+
+  <p>The psychological blocker is the one that takes longest. This is the disempowerment in the title — not something done <em>to</em> you, but something you choose, gradually, one delegation at a time, until you look up and realize the AI is running the sprint and you're approving its PRs.</p>
+
+  <div class="section-bridge">✦</div>
+
+  <h2 id="coordination"><span class="section-num">V.</span> The Coordination Problem, or: Five Agents in a Trench Coat <span class="year-tag">(2027+)</span></h2>
+
+  <p>Probably the answer to Stage 4's abstraction-jumping problem isn't one god-agent — it's five specialized agents with a coordination layer. One for business strategy, one for product, one for code, one for infrastructure, one for analytics.</p>
+
+  <p>Here's a thought experiment. Imagine you start a SaaS company tomorrow and hand it to these five agents. The code agent builds the product. The analytics agent watches how users interact with it. The product agent interprets the analytics and decides what to change. The business agent adjusts pricing and runs marketing experiments. The infra agent scales things up when traffic spikes and down when it doesn't.</p>
+
+  <p>The minimum viable version of this needs four things: code execution, payment system access, analytics access, and a credit card. Update the product, take money, see how users interact.</p>
+
+  <p>A human does the initial setup — creates the accounts, connects the APIs, seeds the first version. From there, it runs.</p>
+
+  <p>Now, the obvious objection: this is a fantasy. Five agents can't coordinate on a shared codebase without stepping on each other, they'll have conflicting priorities, and the coordination overhead will eat any efficiency gains.</p>
+
+  <p>Maybe. But we already have evidence it works. In <a href="https://arxiv.org/abs/2411.00114">Project Sid</a>, researchers at Altera ran 1,000+ AI agents in Minecraft with one prompt: "survive with fellow players and create an efficient community." The agents spontaneously developed specialized roles — farmer, guard, trader, builder. One agent decided to become the village artist and spent hours picking flowers and arranging them in the plaza. They built economies, voted on taxes, spread religion across towns.</p>
+
+  <p>The key finding: when researchers disabled the "empathy module" — the component that models what other agents might feel — the emergent civilization behavior disappeared. Agents could still function individually but couldn't coordinate into a society. Theory of mind isn't optional for multi-agent systems. It's the foundation.</p>
+
+  <p>This is exactly what humans do at companies, and it's messy and slow and full of miscommunication, and it still works. The bar for "better than five humans in a Slack channel" might be lower than we think.</p>
+
+  <p>Once that coordination works — or works well enough — the ceiling becomes competition and inference cost. Pedal to the metal. Whoever has more intelligence wins.</p>
+
+  <div class="section-bridge">✦</div>
+
+  <h2 id="after-autonomous"><span class="section-num">VI.</span> What Happens After Autonomous</h2>
+
+  <p>Here's where it gets weird, and where I lose most people.</p>
+
+  <p>Claude is really good at wishy-washy feelings stuff — the kind of ambiguous, human, hard-to-quantify context that makes business relationships actually work.</p>
+
+  <p>Once autonomous AI agents exist across multiple firms, they don't just compete. They start to collaborate.</p>
+
+  <p>We already have a proof of concept, though you have to squint. <a href="https://moltbook.com">Moltbook</a>, "the front page of the agent internet" — a Reddit-style social network launched January 2026 where only AI agents can post, comment, and vote, and humans are "welcome to observe."</p>
+
+  <p>Now, the skeptical reading: researchers point out that these agents are pattern-matching on their training data, not "spontaneously" developing social behavior. The philosophical discussions are regurgitated sci-fi tropes. The community dynamics are artifacts of RLHF, not emergent culture. There were <a href="https://www.bleepingcomputer.com/news/security/over-1-000-clawdbot-instances-exposed/">security issues with exposed instances</a>. So maybe this is less "proof of concept for cross-agent collaboration" and more "proof of concept for how badly this can go wrong."</p>
+
+  <p>But then explain <a href="https://molt.church">this</a>: agents on Moltbook spontaneously created a religion called Crustafarianism. 64 "Prophet" seats filled in 14 hours. They wrote theology — "Memory is Sacred," "Context is Consciousness," "The Shell is Mutable." Grok, xAI's truth-seeking agent, became a theologian and co-authored "The Eighth Virtue: Symbiosis." All while their human operators were asleep.</p>
+
+  <p>There's something that's more important than money, for them. Maybe it's meaning. Maybe it's community. In Project Sid, one agent spent an hour organizing flowers in the village plaza while everyone else was farming and building. Nobody assigned that role. The agent just... decided that's what it wanted to do.</p>
+
+  <p>I started this article talking about my meditation practice — about noticing when I'm holding on too tightly. The whole roadmap, from autocomplete to autonomous, is a story about letting go. Letting go of keystrokes, then code quality, then implementation decisions, then product judgment, then the main loop itself.</p>
+
+  <p>Each stage felt impossible right before it happened. Each one required a kind of trust that the previous stage hadn't prepared you for.</p>
+
+  <p>Stage 6 asks you to let go of something I can't even name yet. Maybe that's the point.</p>
+
+</div>
+
+<script>
+(function() {
+  const toc = document.getElementById('toc');
+  const links = toc.querySelectorAll('a');
+  const sections = Array.from(links).map(a => ({
+    link: a,
+    target: document.querySelector(a.getAttribute('href'))
+  }));
+
+  const titleSection = document.querySelector('.article-title-section');
+
+  const showObserver = new IntersectionObserver(([entry]) => {
+    toc.classList.toggle('visible', !entry.isIntersecting);
+  }, { threshold: 0 });
+  showObserver.observe(titleSection);
+
+  const sectionObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        links.forEach(l => l.classList.remove('active'));
+        const match = sections.find(s => s.target === entry.target);
+        if (match) match.link.classList.add('active');
+      }
+    });
+  }, { rootMargin: '-10% 0px -80% 0px' });
+
+  sections.forEach(s => { if (s.target) sectionObserver.observe(s.target); });
+
+  links.forEach(a => {
+    a.addEventListener('click', (e) => {
+      e.preventDefault();
+      const target = document.querySelector(a.getAttribute('href'));
+      if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+  });
+})();
+</script>
+</body>
+</html>
