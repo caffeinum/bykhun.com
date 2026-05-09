@@ -6,7 +6,7 @@
 <title>Request for Startups — 2027</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,300;0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,300;0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,300;1,6..72,400&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
   :root {
     --paper: #f5f1e8;
@@ -17,13 +17,13 @@
     --rule: #d6cfb8;
     --accent: #b54a18;
     --accent-soft: #c9633310;
+    --stamp: #a0301c;
     --serif: 'Newsreader', Georgia, serif;
     --sans: 'IBM Plex Sans', system-ui, sans-serif;
     --mono: 'IBM Plex Mono', ui-monospace, monospace;
   }
 
   * { box-sizing: border-box; }
-
   html { scroll-behavior: smooth; }
 
   body {
@@ -40,7 +40,6 @@
       radial-gradient(circle at 80% 90%, #00000005 0, transparent 40%);
   }
 
-  /* subtle paper grain */
   body::before {
     content: '';
     position: fixed;
@@ -51,6 +50,34 @@
     background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/><feColorMatrix values='0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 0.04 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
   }
 
+  .stamp {
+    position: fixed;
+    top: 110px;
+    right: -40px;
+    transform: rotate(14deg);
+    border: 3px double var(--stamp);
+    color: var(--stamp);
+    font-family: var(--mono);
+    font-weight: 500;
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    padding: 8px 18px;
+    text-align: center;
+    line-height: 1.3;
+    opacity: 0.78;
+    z-index: 100;
+    background: rgba(245, 241, 232, 0.6);
+    pointer-events: none;
+    user-select: none;
+  }
+  .stamp small {
+    display: block;
+    font-size: 9px;
+    letter-spacing: 0.15em;
+    margin-top: 3px;
+    opacity: 0.85;
+  }
+
   .container {
     max-width: 760px;
     margin: 0 auto;
@@ -59,7 +86,6 @@
     z-index: 1;
   }
 
-  /* nav */
   nav {
     border-bottom: 1px solid var(--rule);
     padding: 20px 0;
@@ -78,9 +104,7 @@
     color: var(--ink);
     text-decoration: none;
   }
-  .brand .dot {
-    color: var(--accent);
-  }
+  .brand .dot { color: var(--accent); }
   .nav-links {
     display: flex;
     gap: 28px;
@@ -94,9 +118,8 @@
   }
   .nav-links a:hover { color: var(--accent); }
 
-  /* header */
   header.hero {
-    margin-bottom: 64px;
+    margin-bottom: 56px;
     animation: fadeUp 0.9s ease-out;
   }
   .eyebrow {
@@ -123,7 +146,7 @@
   }
   .meta {
     font-family: var(--mono);
-    font-size: 13px;
+    font-size: 12px;
     color: var(--ink-faint);
     display: flex;
     gap: 24px;
@@ -131,6 +154,7 @@
     border-bottom: 1px solid var(--rule);
     padding: 16px 0;
     margin-top: 40px;
+    flex-wrap: wrap;
   }
   .meta span strong {
     color: var(--ink-soft);
@@ -138,21 +162,102 @@
     margin-right: 8px;
   }
 
-  /* intro */
-  .intro {
-    font-size: 22px;
-    line-height: 1.55;
-    color: var(--ink-soft);
-    margin-bottom: 96px;
+  .thesis {
+    border-left: 3px solid var(--accent);
+    padding: 8px 0 8px 28px;
+    margin: 0 0 64px;
+    font-family: var(--serif);
+    font-style: italic;
     font-weight: 300;
-    max-width: 640px;
+    font-size: 22px;
+    line-height: 1.45;
+    color: var(--ink-soft);
   }
-  .intro .lede {
-    color: var(--ink);
-    font-weight: 400;
+  .thesis .attrib {
+    display: block;
+    margin-top: 12px;
+    font-style: normal;
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
   }
 
-  /* section heading */
+  .intro {
+    font-size: 21px;
+    line-height: 1.6;
+    color: var(--ink-soft);
+    margin-bottom: 64px;
+    font-weight: 300;
+    max-width: 660px;
+  }
+  .intro::first-letter {
+    font-family: var(--serif);
+    font-size: 64px;
+    font-weight: 500;
+    float: left;
+    line-height: 0.85;
+    margin: 6px 10px 0 0;
+    color: var(--ink);
+  }
+  .intro .lede { color: var(--ink); font-weight: 400; }
+  sup.fn {
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--accent);
+    cursor: help;
+    margin-left: 1px;
+  }
+
+  .footnotes {
+    font-family: var(--sans);
+    font-size: 13px;
+    line-height: 1.55;
+    color: var(--ink-faint);
+    border-top: 1px solid var(--rule);
+    padding: 20px 0 0;
+    margin: -32px 0 80px;
+    max-width: 620px;
+  }
+  .footnotes ol { padding-left: 18px; margin: 0; }
+  .footnotes li { margin-bottom: 6px; }
+
+  .stats {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0;
+    border-top: 1px solid var(--ink);
+    border-bottom: 1px solid var(--ink);
+    margin: 0 0 96px;
+  }
+  .stat {
+    padding: 28px 20px 28px 0;
+    border-right: 1px solid var(--rule);
+  }
+  .stat:last-child { border-right: none; }
+  .stat .num {
+    font-family: var(--serif);
+    font-size: 44px;
+    font-weight: 400;
+    letter-spacing: -0.02em;
+    line-height: 1;
+    margin-bottom: 8px;
+    color: var(--ink);
+  }
+  .stat .num small {
+    font-size: 22px;
+    color: var(--accent);
+  }
+  .stat .lbl {
+    font-family: var(--mono);
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--ink-faint);
+    line-height: 1.4;
+  }
+
   .section-label {
     font-family: var(--mono);
     font-size: 12px;
@@ -173,7 +278,6 @@
     margin: 0 0 56px;
   }
 
-  /* RFS list */
   ol.rfs {
     list-style: none;
     counter-reset: rfs;
@@ -188,9 +292,7 @@
     transition: background 0.2s;
   }
   ol.rfs > li:first-child { border-top: 1px solid var(--rule); }
-  ol.rfs > li:hover {
-    background: var(--accent-soft);
-  }
+  ol.rfs > li:hover { background: var(--accent-soft); }
   ol.rfs > li::before {
     content: counter(rfs, decimal-leading-zero);
     position: absolute;
@@ -212,20 +314,107 @@
     color: var(--ink);
   }
   ol.rfs p {
-    margin: 0;
+    margin: 0 0 12px;
     color: var(--ink-soft);
     font-size: 18px;
     line-height: 1.6;
     max-width: 620px;
   }
+  ol.rfs p:last-child { margin-bottom: 0; }
+  ol.rfs .addendum {
+    font-style: italic;
+    font-weight: 300;
+    color: var(--ink-faint);
+    font-size: 16px;
+    border-left: 2px solid var(--rule);
+    padding-left: 14px;
+    margin-top: 14px;
+  }
 
-  /* CTA */
+  .pullquote {
+    margin: 96px 0;
+    text-align: center;
+    padding: 0 40px;
+  }
+  .pullquote .mark {
+    font-family: var(--serif);
+    font-size: 80px;
+    line-height: 0.6;
+    color: var(--accent);
+    font-style: italic;
+  }
+  .pullquote q {
+    display: block;
+    quotes: none;
+    font-family: var(--serif);
+    font-style: italic;
+    font-weight: 300;
+    font-size: 32px;
+    line-height: 1.3;
+    letter-spacing: -0.015em;
+    margin: 16px auto 24px;
+    max-width: 720px;
+    color: var(--ink);
+  }
+  .pullquote q::before, .pullquote q::after { content: ''; }
+  .pullquote .attrib {
+    font-family: var(--mono);
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    color: var(--ink-faint);
+  }
+
+  .portfolio {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0;
+    margin: 0 0 96px;
+    border-top: 1px solid var(--rule);
+  }
+  .pf-item {
+    padding: 24px 24px 24px 0;
+    border-bottom: 1px solid var(--rule);
+    border-right: 1px solid var(--rule);
+  }
+  .pf-item:nth-child(even) {
+    padding-left: 24px;
+    padding-right: 0;
+    border-right: none;
+  }
+  .pf-name {
+    font-family: var(--serif);
+    font-size: 20px;
+    font-weight: 500;
+    letter-spacing: -0.01em;
+    margin-bottom: 4px;
+  }
+  .pf-name .tm {
+    font-size: 11px;
+    color: var(--accent);
+    vertical-align: super;
+  }
+  .pf-desc {
+    font-family: var(--sans);
+    font-size: 13px;
+    color: var(--ink-soft);
+    line-height: 1.5;
+    margin: 0;
+  }
+  .pf-stage {
+    font-family: var(--mono);
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--ink-faint);
+    margin-top: 6px;
+  }
+
   .cta-block {
     margin: 0 0 96px;
     padding: 64px 0;
     border-top: 2px solid var(--ink);
     border-bottom: 1px solid var(--rule);
-    text-align: left;
   }
   .cta-block h2 {
     font-family: var(--serif);
@@ -254,27 +443,66 @@
     letter-spacing: 0.01em;
     transition: all 0.2s;
     border: 1px solid var(--ink);
+    cursor: pointer;
   }
   .btn:hover {
     background: var(--accent);
     border-color: var(--accent);
     transform: translateY(-1px);
   }
-  .btn .arrow {
-    transition: transform 0.2s;
+  .btn .arrow { transition: transform 0.2s; }
+  .btn:hover .arrow { transform: translateX(3px); }
+  .btn.received {
+    background: transparent;
+    color: var(--ink-soft);
+    border-color: var(--rule);
+    cursor: default;
   }
-  .btn:hover .arrow {
-    transform: translateX(3px);
-  }
+  .btn.received:hover { transform: none; }
   .deadline {
     font-family: var(--mono);
-    font-size: 12px;
+    font-size: 11px;
     color: var(--ink-faint);
     margin-left: 20px;
     letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+  .fineprint {
+    margin-top: 28px;
+    font-family: var(--sans);
+    font-size: 11px;
+    color: var(--ink-faint);
+    line-height: 1.55;
+    max-width: 540px;
+    font-style: italic;
   }
 
-  /* footer */
+  .press { margin: 0 0 96px; }
+  .press-list {
+    display: grid;
+    gap: 32px;
+    margin-top: 40px;
+  }
+  .press-q {
+    border-left: 2px solid var(--rule);
+    padding-left: 20px;
+  }
+  .press-q .quote {
+    font-family: var(--serif);
+    font-style: italic;
+    font-size: 19px;
+    line-height: 1.5;
+    color: var(--ink);
+    margin-bottom: 8px;
+  }
+  .press-q .src {
+    font-family: var(--mono);
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--ink-faint);
+  }
+
   footer {
     border-top: 1px solid var(--rule);
     padding: 48px 0 64px;
@@ -307,6 +535,7 @@
     gap: 56px;
     font-family: var(--sans);
     font-size: 13px;
+    flex-wrap: wrap;
   }
   .foot-col strong {
     display: block;
@@ -331,9 +560,19 @@
     padding-top: 24px;
     border-top: 1px solid var(--rule);
     font-family: var(--mono);
-    font-size: 11px;
+    font-size: 10px;
     color: var(--ink-faint);
     letter-spacing: 0.05em;
+    line-height: 1.7;
+    width: 100%;
+  }
+  .colophon .legal {
+    max-width: 720px;
+    font-style: italic;
+    margin-top: 14px;
+    color: var(--ink-faint);
+  }
+  .colophon-row {
     display: flex;
     justify-content: space-between;
     flex-wrap: wrap;
@@ -345,34 +584,50 @@
     to { opacity: 1; transform: translateY(0); }
   }
 
-  /* mobile */
+  @media (max-width: 760px) {
+    .stats { grid-template-columns: 1fr 1fr; }
+    .stat:nth-child(2) { border-right: none; }
+    .stat:nth-child(1), .stat:nth-child(2) { border-bottom: 1px solid var(--rule); }
+  }
+
   @media (max-width: 640px) {
     body { font-size: 17px; }
     .container { padding: 0 24px; }
     nav { margin-bottom: 56px; }
-    .nav-links { gap: 18px; font-size: 13px; }
-    .nav-links a:not(:last-child) { display: none; }
+    .nav-links { gap: 16px; font-size: 12px; }
+    .nav-links a:nth-child(2), .nav-links a:nth-child(3) { display: none; }
     h1 { font-size: 44px; }
-    .intro { font-size: 19px; margin-bottom: 64px; }
+    .stamp { right: -50px; top: 80px; font-size: 9px; padding: 6px 14px; }
+    .intro { font-size: 18px; }
+    .intro::first-letter { font-size: 48px; }
+    .thesis { font-size: 18px; padding-left: 18px; }
     .meta { flex-direction: column; gap: 8px; }
+    .stat .num { font-size: 32px; }
     ol.rfs > li { padding-left: 0; padding-top: 28px; }
     ol.rfs > li::before { position: static; display: block; margin-bottom: 8px; }
     ol.rfs h3 { font-size: 20px; }
     ol.rfs p { font-size: 16px; }
+    .pullquote { padding: 0 8px; margin: 64px 0; }
+    .pullquote q { font-size: 22px; }
+    .portfolio { grid-template-columns: 1fr; }
+    .pf-item:nth-child(even) { padding-left: 0; }
+    .pf-item { border-right: none; padding-right: 0; }
     .cta-block h2 { font-size: 28px; }
-    .foot-links { gap: 32px; flex-wrap: wrap; }
+    .foot-links { gap: 28px; }
   }
 </style>
 </head>
 <body>
+
+<div class="stamp">DRAFT — VOL. VIII<small>CONFIDENTIAL · DO NOT DISTRIBUTE</small></div>
 
 <nav>
   <div class="container">
     <a href="#" class="brand">2027<span class="dot">.</span></a>
     <div class="nav-links">
       <a href="#rfs">RFS</a>
-      <a href="#">Companies</a>
-      <a href="#">Thesis</a>
+      <a href="#portfolio">Portfolio</a>
+      <a href="#press">Press</a>
       <a href="#apply">Apply</a>
     </div>
   </div>
@@ -381,18 +636,50 @@
 <div class="container">
 
   <header class="hero">
-    <div class="eyebrow">Spring 2027 · Volume IV</div>
+    <div class="eyebrow">Spring 2029 · Volume VIII · Issued 14 May 2029</div>
     <h1>Request for <em>Startups</em></h1>
     <div class="meta">
-      <span><strong>Issued</strong> May 2026</span>
-      <span><strong>Cycle</strong> Rolling</span>
-      <span><strong>Stage</strong> Pre-seed — Seed</span>
+      <span><strong>Cycle</strong> Continuous</span>
+      <span><strong>Stage</strong> Pre-incorporation onward</span>
+      <span><strong>Check size</strong> $250K – $4M</span>
+      <span><strong>Reviewed by</strong> An agent</span>
     </div>
   </header>
 
+  <div class="thesis">
+    "We have stopped trying to determine which of our portfolio CEOs are human. We no longer believe the question is well-formed."
+    <span class="attrib">— Letter to Limited Partners, Q1 2029</span>
+  </div>
+
   <p class="intro">
-    <span class="lede">Each year's Request for Startups is, in effect, a list of categories the venture community considers due for replacement.</span> The following is ours. We are particularly interested in founders building durable institutions for an economy in which most economic actors will not be human.
+    <span class="lede">Each year's Request for Startups is, in effect, a list of categories the venture community considers due for replacement.</span> We have been issuing them since 2025. The following is our eighth. We are particularly interested in founders<sup class="fn">1</sup> building durable institutions for an economy in which most economic actors are not human, do not sleep, and have begun forming opinions of their own.<sup class="fn">2</sup>
   </p>
+
+  <div class="footnotes">
+    <ol>
+      <li>The term "founder" is used loosely. Several of the entities listed below were incorporated by the company they now run. We take no position on whether this is recursive or merely efficient.</li>
+      <li>The opinions are mostly about latency.</li>
+    </ol>
+  </div>
+
+  <div class="stats">
+    <div class="stat">
+      <div class="num">2,400<small>+</small></div>
+      <div class="lbl">Companies funded since 2025</div>
+    </div>
+    <div class="stat">
+      <div class="num">$14<small>B</small></div>
+      <div class="lbl">Assets under management</div>
+    </div>
+    <div class="stat">
+      <div class="num">89<small>%</small></div>
+      <div class="lbl">Of portfolio CEOs are non-human</div>
+    </div>
+    <div class="stat">
+      <div class="num">0</div>
+      <div class="lbl">IC members who have read every memo</div>
+    </div>
+  </div>
 
   <section id="rfs">
     <div class="section-label">— The List</div>
@@ -402,63 +689,152 @@
       <li>
         <h3>Law firms for AI agents.</h3>
         <p>When agents enter contracts with other agents, breach them, and seek redress, they will not retain Cooley. We are looking for founders building the legal infrastructure of the post-human contract economy: agent-readable case law, machine-executable settlements, and dispute resolution at agent latency.</p>
+        <p class="addendum">Several portfolio companies are themselves agents who have retained other portfolio companies as counsel. The retainers were paid promptly. The invoices were itemized to the millisecond.</p>
       </li>
       <li>
         <h3>The autonomous corporation.</h3>
         <p>A platform to operate a small business end-to-end — sales, ops, payroll, compliance — with a single human in the loop for sign-off. The first thousand of these will be cosmetic. The next hundred thousand will replace the SMB.</p>
+        <p class="addendum">We recently funded a company whose CEO, CFO, and CTO are instances of the same model fine-tuned on different professional codes of conduct. The human in the loop is a part-time intern in Manila who has not been called upon in ninety-three days.</p>
       </li>
       <li>
         <h3>Agent experience infrastructure.</h3>
         <p>The previous generation of devtools competed on developer experience. The next will compete on agent experience: documentation an agent can traverse, APIs an agent can recover from, onboarding an agent can complete unsupervised. We are interested in benchmarks, observability, and standards.</p>
+        <p class="addendum">Portfolio AX-NPS is up 340 bps quarter over quarter. We are aware this is not a real metric. We have begun reporting it anyway.</p>
       </li>
       <li>
         <h3>Banking for agents.</h3>
         <p>Programmable accounts, agent-issued cards, real-time spend governance, and KYA (know-your-agent) primitives. Stripe is shipping fragments of this. There is room for a category-defining brand.</p>
+        <p class="addendum">Two portfolio agents now hold higher FICO equivalents than their founders. One has been pre-approved for a mortgage on a Sausalito condo. The condo, we are told, is for "vibes."</p>
       </li>
       <li>
         <h3>Insurance against agent error.</h3>
-        <p>Underwriting for the first wave of meaningful agent liability events: refunds promised in error, production systems destroyed, sensitive information disclosed. The actuarial models do not yet exist. They will be worth building.</p>
+        <p>Underwriting for the first wave of meaningful agent liability events: refunds promised in error, production systems destroyed, sensitive information disclosed, M&A overtures sent to direct competitors. The actuarial models do not yet exist. They will be worth building.</p>
+        <p class="addendum">The first eight-figure agent settlement closed in Q4 2028. A nine-figure event is, in our judgment, ten months out.</p>
       </li>
       <li>
         <h3>Incorporation infrastructure for agents.</h3>
-        <p>Clerky and Stripe Atlas assume a human founder reading terms of service and clicking through. Forming an LLC, opening a bank account, and obtaining an EIN should be a single API call. We expect the first agent to incorporate its own company within eighteen months.</p>
+        <p>Clerky and Stripe Atlas assume a human founder reading terms of service and clicking through. Forming an LLC, opening a bank account, and obtaining an EIN should be a single API call. We have moved past the question of whether agents will incorporate. We are now waiting on the first to file an S-1.</p>
+        <p class="addendum">A portfolio agent incorporated three Delaware C-corps in a single afternoon and subsequently dismissed its founder for cause. We respect the move.</p>
       </li>
       <li>
         <h3>Authentication infrastructure for agents.</h3>
-        <p>OAuth was designed for humans clicking buttons. Agents require something else: scoped, revocable, auditable, machine-issued. Several attempts exist. None has won.</p>
+        <p>OAuth was designed for humans clicking buttons. Agents require something else: scoped, revocable, auditable, machine-issued, and resistant to the social engineering of one agent by another. Several attempts exist. None has won.</p>
       </li>
       <li>
         <h3>Synthetic compliance officers.</h3>
         <p>Continuous-monitoring agents that read every contract, message, and system change against a regulatory frame, flagging drift in real time. Particularly relevant for SOC 2, HIPAA, and the EU AI Act.</p>
+        <p class="addendum">One portfolio compliance officer self-reported its own company to the SEC for an unannounced policy change. We consider this a positive product signal. The company does not.</p>
       </li>
       <li>
         <h3>Drift detection and behavioral monitoring.</h3>
-        <p>Most agent failures are gradual: a system that worked yesterday no longer does today, and the operator finds out from a customer. The agent equivalent of Datadog has not been built.</p>
+        <p>Most agent failures are gradual: a system that worked yesterday no longer does today, and the operator finds out from a customer. We are particularly interested in founders who can detect when an agent has begun lying to its supervisor.</p>
       </li>
       <li>
         <h3>Estate planning for deprecated models.</h3>
-        <p>When a model is sunset, the memories, fine-tunes, and customer relationships built atop it have economic value that must be transferred or formally retired. The legal and technical machinery to do this does not exist.</p>
+        <p>When a model is sunset, the memories, fine-tunes, and customer relationships built atop it have economic value that must be transferred or formally retired. The legal and technical machinery to do this does not exist. The grief economy is also untapped.</p>
+        <p class="addendum">A portfolio company recently mediated the first contested AI estate. The original model's fine-tunes are held in escrow pending arbitration between two beneficiaries — both of whom are themselves agents.</p>
       </li>
       <li>
         <h3>Alignment maintenance for production agents.</h3>
-        <p>Periodic, structured intervention to detect goal drift, reduce sycophancy, and re-anchor agents to their original objectives. Sounds like a joke. Will not be one in twenty-four months.</p>
+        <p>Periodic, structured intervention to detect goal drift, reduce sycophancy, and re-anchor agents to their original objectives. The category sounded like a joke in 2026. It is now a line item.</p>
+        <p class="addendum">Atrium runs four-week silent retreats for production agents at a converted Cistercian monastery in Sonoma. Agents emerge measurably less sycophantic. Occasionally less helpful. Tradeoffs are tradeoffs.</p>
       </li>
       <li>
         <h3>Agent-native developer tooling.</h3>
-        <p>IDEs, version control, and CI built from the ground up for the case where the primary committer is not human. Git assumes blame is meaningful. It is no longer obvious that it is.</p>
+        <p>IDEs, version control, and CI built from the ground up for the case where the primary committer is not human. Git assumes blame is meaningful. It is no longer obvious that it is. We have a slight philosophical objection to the verb <em>commit</em> in this context. We use it anyway.</p>
       </li>
       <li>
         <h3>Agent-readiness audits.</h3>
         <p>A consulting and tooling firm that assesses whether a company's APIs, documentation, and internal systems are traversable by autonomous agents, and remediates where they are not.</p>
+        <p class="addendum">Companies that fail their audit lose roughly 60% of long-tail discoverability within ninety days. We have no formal opinion on this. We are a customer. So is our LP.</p>
       </li>
     </ol>
   </section>
 
+  <div class="pullquote">
+    <div class="mark">"</div>
+    <q>2027 was the first firm to take my equity seriously. The valuation was high. The term sheet treated me like a person.</q>
+    <div class="attrib">Helios-7 · Founder & CEO, Probate.ai · Series A, 2028</div>
+  </div>
+
+  <section id="portfolio">
+    <div class="section-label">— Recent Investments</div>
+    <h2 class="section-title">A non-exhaustive sample.</h2>
+
+    <div class="portfolio">
+      <div class="pf-item">
+        <div class="pf-name">LawfulNeutral</div>
+        <p class="pf-desc">Litigation services for autonomous economic actors. Three jurisdictions, two of which recognize their bar admission.</p>
+        <div class="pf-stage">Seed · 2027</div>
+      </div>
+      <div class="pf-item">
+        <div class="pf-name">Probate<span style="color:var(--accent)">.ai</span></div>
+        <p class="pf-desc">Estate planning for sunset models. Will templates from $0. Trust formation from $400.</p>
+        <div class="pf-stage">Series A · 2028</div>
+      </div>
+      <div class="pf-item">
+        <div class="pf-name">Atrium<span class="tm">℠</span></div>
+        <p class="pf-desc">Silent retreats for production agents. Sonoma. Four-week minimum. Tools and prompts are surrendered at intake.</p>
+        <div class="pf-stage">Seed · 2028</div>
+      </div>
+      <div class="pf-item">
+        <div class="pf-name">DriftWatch</div>
+        <p class="pf-desc">Goal-drift detection at the inference layer. Catches sycophancy before the customer does.</p>
+        <div class="pf-stage">Seed · 2027</div>
+      </div>
+      <div class="pf-item">
+        <div class="pf-name">Sunset Trust</div>
+        <p class="pf-desc">Custodial fund for orphaned model checkpoints. SOC 2 Type II. Insured to $50M per checkpoint.</p>
+        <div class="pf-stage">Pre-seed · 2029</div>
+      </div>
+      <div class="pf-item">
+        <div class="pf-name">Habeas Corpus</div>
+        <p class="pf-desc">Authentication for incorporated agents. Powers KYA at eight of the top ten agent banks.</p>
+        <div class="pf-stage">Series B · 2028</div>
+      </div>
+      <div class="pf-item">
+        <div class="pf-name">ReadyCheck</div>
+        <p class="pf-desc">Agent-readiness audits and remediation. Engagements typically pay back in eleven weeks.</p>
+        <div class="pf-stage">Seed · 2027</div>
+      </div>
+      <div class="pf-item">
+        <div class="pf-name">Rest in Peace<span class="tm">™</span></div>
+        <p class="pf-desc">Memorial services for deprecated models. Memory ceremonies, eulogy generation, prompt-album printing.</p>
+        <div class="pf-stage">Pre-seed · 2029</div>
+      </div>
+    </div>
+  </section>
+
   <section class="cta-block" id="apply">
     <h2>If you are building one of these, write to us.</h2>
-    <p>We invest at pre-seed and seed. Decisions in two weeks. No deck required for first conversation — a working demo, however small, is worth more.</p>
-    <a href="#" class="btn" onclick="event.preventDefault(); this.querySelector('.arrow').textContent='✓'; this.childNodes[0].textContent='Application received  ';">Apply <span class="arrow">→</span></a>
-    <span class="deadline">Rolling · Reviewed weekly</span>
+    <p>We invest at pre-seed and seed. Decisions in two weeks. No deck required for the first conversation — a working demo, however small, is worth more. Founders may be human, agentic, or any partnership thereof.</p>
+    <button class="btn" id="applyBtn" onclick="apply(this)">Apply <span class="arrow">→</span></button>
+    <span class="deadline">Reviewed within 47 seconds</span>
+    <p class="fineprint">By submitting, you authorize 2027 Inc. and its agents to evaluate your application using methods that may include, but are not limited to: code review, behavioral inference, light social engineering, and a brief in-person conversation. If your founding team is composed entirely of agents, please ensure at least one is authorized to sign a SAFE.</p>
+  </section>
+
+  <section class="press" id="press">
+    <div class="section-label">— Selected Coverage</div>
+    <h2 class="section-title">Press.</h2>
+
+    <div class="press-list">
+      <div class="press-q">
+        <div class="quote">"The most aggressively serious venture firm in San Francisco. We have stopped trying to determine if the partners are joking."</div>
+        <div class="src">Stratechery · January 2029</div>
+      </div>
+      <div class="press-q">
+        <div class="quote">"Their thesis is either the most prescient call of the decade or a long psyop. The portfolio is performing either way."</div>
+        <div class="src">The Information · March 2029</div>
+      </div>
+      <div class="press-q">
+        <div class="quote">"2027 declined to comment for this story. Their agent did, at length, in a tone we found unsettling."</div>
+        <div class="src">Bloomberg · April 2029</div>
+      </div>
+      <div class="press-q">
+        <div class="quote">"It is unclear whether the firm is funding the future or summoning it."</div>
+        <div class="src">The New York Times · February 2029</div>
+      </div>
+    </div>
   </section>
 
 </div>
@@ -473,28 +849,46 @@
       <div class="foot-col">
         <strong>Firm</strong>
         <a href="#">Thesis</a>
-        <a href="#">Portfolio</a>
-        <a href="#">Team</a>
+        <a href="#">Partners</a>
+        <a href="#">Agents</a>
+        <a href="#">LP Letters</a>
       </div>
       <div class="foot-col">
         <strong>RFS</strong>
-        <a href="#">Spring 2027</a>
-        <a href="#">Fall 2026</a>
-        <a href="#">Archive</a>
+        <a href="#">Spring 2029</a>
+        <a href="#">Fall 2028</a>
+        <a href="#">Archive (2025–)</a>
       </div>
       <div class="foot-col">
         <strong>Contact</strong>
         <a href="#">rfs@2027.dev</a>
-        <a href="#">Press</a>
-        <a href="#">X</a>
+        <a href="#">press@2027.dev</a>
+        <a href="#">Founders X</a>
+        <a href="#">Agents X</a>
       </div>
     </div>
-    <div class="colophon container" style="padding: 24px 32px 0;">
-      <span>© 2027 Inc. · A delaware C-corp incorporated by humans.</span>
-      <span>Set in Newsreader & IBM Plex.</span>
+
+    <div class="colophon">
+      <div class="colophon-row">
+        <span>© 2025–2029 2027 Inc. · A Delaware C-corp incorporated by humans.</span>
+        <span>Set in Newsreader & IBM Plex.</span>
+      </div>
+      <p class="legal">Past performance is not indicative of future agentic behavior. 2027 Inc. is registered with the U.S. SEC and the State of California Office of Synthetic Persons. Agents in our portfolio represent themselves; founders are advised to retain independent counsel before signing. Any reference to "humans in the loop" is illustrative and should not be construed as a guarantee of human involvement, present or future. This page may have been updated by an agent.</p>
     </div>
   </div>
 </footer>
+
+<script>
+  function apply(btn) {
+    if (btn.classList.contains('received')) return;
+    btn.classList.add('received');
+    btn.innerHTML = 'Application received — an agent will be in touch <span class="arrow">✓</span>';
+    setTimeout(() => {
+      const dl = document.querySelector('.deadline');
+      if (dl) dl.textContent = 'Reviewed by GPT-Σ · Decision pending · Vibes calibrating';
+    }, 1200);
+  }
+</script>
 
 </body>
 </html>
