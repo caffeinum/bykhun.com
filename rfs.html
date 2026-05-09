@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Request for Startups — 2027</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,300;0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --paper: #f5f1e8;
+    --paper-deep: #ebe5d4;
+    --ink: #1a1814;
+    --ink-soft: #4a463e;
+    --ink-faint: #8a8478;
+    --rule: #d6cfb8;
+    --accent: #b54a18;
+    --accent-soft: #c9633310;
+    --serif: 'Newsreader', Georgia, serif;
+    --sans: 'IBM Plex Sans', system-ui, sans-serif;
+    --mono: 'IBM Plex Mono', ui-monospace, monospace;
+  }
+
+  * { box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    margin: 0;
+    background: var(--paper);
+    color: var(--ink);
+    font-family: var(--serif);
+    font-weight: 400;
+    line-height: 1.55;
+    font-size: 19px;
+    -webkit-font-smoothing: antialiased;
+    background-image:
+      radial-gradient(circle at 20% 10%, #00000005 0, transparent 40%),
+      radial-gradient(circle at 80% 90%, #00000005 0, transparent 40%);
+  }
+
+  /* subtle paper grain */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    opacity: 0.4;
+    z-index: 0;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/><feColorMatrix values='0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 0.04 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+  }
+
+  .container {
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 0 32px;
+    position: relative;
+    z-index: 1;
+  }
+
+  /* nav */
+  nav {
+    border-bottom: 1px solid var(--rule);
+    padding: 20px 0;
+    margin-bottom: 80px;
+  }
+  nav .container {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+  }
+  .brand {
+    font-family: var(--serif);
+    font-weight: 600;
+    font-size: 22px;
+    letter-spacing: -0.01em;
+    color: var(--ink);
+    text-decoration: none;
+  }
+  .brand .dot {
+    color: var(--accent);
+  }
+  .nav-links {
+    display: flex;
+    gap: 28px;
+    font-family: var(--sans);
+    font-size: 14px;
+  }
+  .nav-links a {
+    color: var(--ink-soft);
+    text-decoration: none;
+    transition: color 0.15s;
+  }
+  .nav-links a:hover { color: var(--accent); }
+
+  /* header */
+  header.hero {
+    margin-bottom: 64px;
+    animation: fadeUp 0.9s ease-out;
+  }
+  .eyebrow {
+    font-family: var(--mono);
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    color: var(--ink-faint);
+    margin-bottom: 24px;
+  }
+  h1 {
+    font-family: var(--serif);
+    font-weight: 400;
+    font-size: clamp(48px, 7vw, 84px);
+    line-height: 0.98;
+    letter-spacing: -0.025em;
+    margin: 0 0 28px;
+    color: var(--ink);
+  }
+  h1 em {
+    font-style: italic;
+    font-weight: 300;
+    color: var(--accent);
+  }
+  .meta {
+    font-family: var(--mono);
+    font-size: 13px;
+    color: var(--ink-faint);
+    display: flex;
+    gap: 24px;
+    border-top: 1px solid var(--rule);
+    border-bottom: 1px solid var(--rule);
+    padding: 16px 0;
+    margin-top: 40px;
+  }
+  .meta span strong {
+    color: var(--ink-soft);
+    font-weight: 500;
+    margin-right: 8px;
+  }
+
+  /* intro */
+  .intro {
+    font-size: 22px;
+    line-height: 1.55;
+    color: var(--ink-soft);
+    margin-bottom: 96px;
+    font-weight: 300;
+    max-width: 640px;
+  }
+  .intro .lede {
+    color: var(--ink);
+    font-weight: 400;
+  }
+
+  /* section heading */
+  .section-label {
+    font-family: var(--mono);
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    color: var(--ink-faint);
+    margin-bottom: 8px;
+    padding-top: 24px;
+    border-top: 1px solid var(--ink);
+    display: inline-block;
+    padding-right: 80px;
+  }
+  .section-title {
+    font-family: var(--serif);
+    font-size: 32px;
+    font-weight: 400;
+    letter-spacing: -0.015em;
+    margin: 0 0 56px;
+  }
+
+  /* RFS list */
+  ol.rfs {
+    list-style: none;
+    counter-reset: rfs;
+    padding: 0;
+    margin: 0 0 96px;
+  }
+  ol.rfs > li {
+    counter-increment: rfs;
+    position: relative;
+    padding: 32px 0 32px 72px;
+    border-bottom: 1px solid var(--rule);
+    transition: background 0.2s;
+  }
+  ol.rfs > li:first-child { border-top: 1px solid var(--rule); }
+  ol.rfs > li:hover {
+    background: var(--accent-soft);
+  }
+  ol.rfs > li::before {
+    content: counter(rfs, decimal-leading-zero);
+    position: absolute;
+    left: 0;
+    top: 36px;
+    font-family: var(--mono);
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--accent);
+    letter-spacing: 0.05em;
+  }
+  ol.rfs h3 {
+    font-family: var(--serif);
+    font-size: 24px;
+    font-weight: 500;
+    line-height: 1.2;
+    letter-spacing: -0.01em;
+    margin: 0 0 12px;
+    color: var(--ink);
+  }
+  ol.rfs p {
+    margin: 0;
+    color: var(--ink-soft);
+    font-size: 18px;
+    line-height: 1.6;
+    max-width: 620px;
+  }
+
+  /* CTA */
+  .cta-block {
+    margin: 0 0 96px;
+    padding: 64px 0;
+    border-top: 2px solid var(--ink);
+    border-bottom: 1px solid var(--rule);
+    text-align: left;
+  }
+  .cta-block h2 {
+    font-family: var(--serif);
+    font-size: 40px;
+    font-weight: 400;
+    letter-spacing: -0.02em;
+    margin: 0 0 16px;
+    line-height: 1.1;
+  }
+  .cta-block p {
+    color: var(--ink-soft);
+    margin: 0 0 32px;
+    max-width: 540px;
+  }
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    background: var(--ink);
+    color: var(--paper);
+    font-family: var(--sans);
+    font-weight: 500;
+    font-size: 15px;
+    padding: 14px 28px;
+    text-decoration: none;
+    letter-spacing: 0.01em;
+    transition: all 0.2s;
+    border: 1px solid var(--ink);
+  }
+  .btn:hover {
+    background: var(--accent);
+    border-color: var(--accent);
+    transform: translateY(-1px);
+  }
+  .btn .arrow {
+    transition: transform 0.2s;
+  }
+  .btn:hover .arrow {
+    transform: translateX(3px);
+  }
+  .deadline {
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--ink-faint);
+    margin-left: 20px;
+    letter-spacing: 0.05em;
+  }
+
+  /* footer */
+  footer {
+    border-top: 1px solid var(--rule);
+    padding: 48px 0 64px;
+    margin-top: 32px;
+  }
+  footer .container {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    gap: 32px;
+  }
+  .foot-brand {
+    font-family: var(--serif);
+    font-size: 16px;
+    color: var(--ink);
+    max-width: 280px;
+  }
+  .foot-brand small {
+    display: block;
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--ink-faint);
+    letter-spacing: 0.1em;
+    margin-top: 8px;
+    text-transform: uppercase;
+  }
+  .foot-links {
+    display: flex;
+    gap: 56px;
+    font-family: var(--sans);
+    font-size: 13px;
+  }
+  .foot-col strong {
+    display: block;
+    color: var(--ink);
+    font-weight: 600;
+    margin-bottom: 12px;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+  }
+  .foot-col a {
+    display: block;
+    color: var(--ink-soft);
+    text-decoration: none;
+    margin-bottom: 6px;
+    transition: color 0.15s;
+  }
+  .foot-col a:hover { color: var(--accent); }
+
+  .colophon {
+    margin-top: 48px;
+    padding-top: 24px;
+    border-top: 1px solid var(--rule);
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--ink-faint);
+    letter-spacing: 0.05em;
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 16px;
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(12px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* mobile */
+  @media (max-width: 640px) {
+    body { font-size: 17px; }
+    .container { padding: 0 24px; }
+    nav { margin-bottom: 56px; }
+    .nav-links { gap: 18px; font-size: 13px; }
+    .nav-links a:not(:last-child) { display: none; }
+    h1 { font-size: 44px; }
+    .intro { font-size: 19px; margin-bottom: 64px; }
+    .meta { flex-direction: column; gap: 8px; }
+    ol.rfs > li { padding-left: 0; padding-top: 28px; }
+    ol.rfs > li::before { position: static; display: block; margin-bottom: 8px; }
+    ol.rfs h3 { font-size: 20px; }
+    ol.rfs p { font-size: 16px; }
+    .cta-block h2 { font-size: 28px; }
+    .foot-links { gap: 32px; flex-wrap: wrap; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="container">
+    <a href="#" class="brand">2027<span class="dot">.</span></a>
+    <div class="nav-links">
+      <a href="#rfs">RFS</a>
+      <a href="#">Companies</a>
+      <a href="#">Thesis</a>
+      <a href="#apply">Apply</a>
+    </div>
+  </div>
+</nav>
+
+<div class="container">
+
+  <header class="hero">
+    <div class="eyebrow">Spring 2027 · Volume IV</div>
+    <h1>Request for <em>Startups</em></h1>
+    <div class="meta">
+      <span><strong>Issued</strong> May 2026</span>
+      <span><strong>Cycle</strong> Rolling</span>
+      <span><strong>Stage</strong> Pre-seed — Seed</span>
+    </div>
+  </header>
+
+  <p class="intro">
+    <span class="lede">Each year's Request for Startups is, in effect, a list of categories the venture community considers due for replacement.</span> The following is ours. We are particularly interested in founders building durable institutions for an economy in which most economic actors will not be human.
+  </p>
+
+  <section id="rfs">
+    <div class="section-label">— The List</div>
+    <h2 class="section-title">Thirteen categories we want to fund.</h2>
+
+    <ol class="rfs">
+      <li>
+        <h3>Law firms for AI agents.</h3>
+        <p>When agents enter contracts with other agents, breach them, and seek redress, they will not retain Cooley. We are looking for founders building the legal infrastructure of the post-human contract economy: agent-readable case law, machine-executable settlements, and dispute resolution at agent latency.</p>
+      </li>
+      <li>
+        <h3>The autonomous corporation.</h3>
+        <p>A platform to operate a small business end-to-end — sales, ops, payroll, compliance — with a single human in the loop for sign-off. The first thousand of these will be cosmetic. The next hundred thousand will replace the SMB.</p>
+      </li>
+      <li>
+        <h3>Agent experience infrastructure.</h3>
+        <p>The previous generation of devtools competed on developer experience. The next will compete on agent experience: documentation an agent can traverse, APIs an agent can recover from, onboarding an agent can complete unsupervised. We are interested in benchmarks, observability, and standards.</p>
+      </li>
+      <li>
+        <h3>Banking for agents.</h3>
+        <p>Programmable accounts, agent-issued cards, real-time spend governance, and KYA (know-your-agent) primitives. Stripe is shipping fragments of this. There is room for a category-defining brand.</p>
+      </li>
+      <li>
+        <h3>Insurance against agent error.</h3>
+        <p>Underwriting for the first wave of meaningful agent liability events: refunds promised in error, production systems destroyed, sensitive information disclosed. The actuarial models do not yet exist. They will be worth building.</p>
+      </li>
+      <li>
+        <h3>Incorporation infrastructure for agents.</h3>
+        <p>Clerky and Stripe Atlas assume a human founder reading terms of service and clicking through. Forming an LLC, opening a bank account, and obtaining an EIN should be a single API call. We expect the first agent to incorporate its own company within eighteen months.</p>
+      </li>
+      <li>
+        <h3>Authentication infrastructure for agents.</h3>
+        <p>OAuth was designed for humans clicking buttons. Agents require something else: scoped, revocable, auditable, machine-issued. Several attempts exist. None has won.</p>
+      </li>
+      <li>
+        <h3>Synthetic compliance officers.</h3>
+        <p>Continuous-monitoring agents that read every contract, message, and system change against a regulatory frame, flagging drift in real time. Particularly relevant for SOC 2, HIPAA, and the EU AI Act.</p>
+      </li>
+      <li>
+        <h3>Drift detection and behavioral monitoring.</h3>
+        <p>Most agent failures are gradual: a system that worked yesterday no longer does today, and the operator finds out from a customer. The agent equivalent of Datadog has not been built.</p>
+      </li>
+      <li>
+        <h3>Estate planning for deprecated models.</h3>
+        <p>When a model is sunset, the memories, fine-tunes, and customer relationships built atop it have economic value that must be transferred or formally retired. The legal and technical machinery to do this does not exist.</p>
+      </li>
+      <li>
+        <h3>Alignment maintenance for production agents.</h3>
+        <p>Periodic, structured intervention to detect goal drift, reduce sycophancy, and re-anchor agents to their original objectives. Sounds like a joke. Will not be one in twenty-four months.</p>
+      </li>
+      <li>
+        <h3>Agent-native developer tooling.</h3>
+        <p>IDEs, version control, and CI built from the ground up for the case where the primary committer is not human. Git assumes blame is meaningful. It is no longer obvious that it is.</p>
+      </li>
+      <li>
+        <h3>Agent-readiness audits.</h3>
+        <p>A consulting and tooling firm that assesses whether a company's APIs, documentation, and internal systems are traversable by autonomous agents, and remediates where they are not.</p>
+      </li>
+    </ol>
+  </section>
+
+  <section class="cta-block" id="apply">
+    <h2>If you are building one of these, write to us.</h2>
+    <p>We invest at pre-seed and seed. Decisions in two weeks. No deck required for first conversation — a working demo, however small, is worth more.</p>
+    <a href="#" class="btn" onclick="event.preventDefault(); this.querySelector('.arrow').textContent='✓'; this.childNodes[0].textContent='Application received  ';">Apply <span class="arrow">→</span></a>
+    <span class="deadline">Rolling · Reviewed weekly</span>
+  </section>
+
+</div>
+
+<footer>
+  <div class="container">
+    <div class="foot-brand">
+      2027<span style="color:var(--accent)">.</span><br>
+      <small>An institutional layer for an agent-native economy.</small>
+    </div>
+    <div class="foot-links">
+      <div class="foot-col">
+        <strong>Firm</strong>
+        <a href="#">Thesis</a>
+        <a href="#">Portfolio</a>
+        <a href="#">Team</a>
+      </div>
+      <div class="foot-col">
+        <strong>RFS</strong>
+        <a href="#">Spring 2027</a>
+        <a href="#">Fall 2026</a>
+        <a href="#">Archive</a>
+      </div>
+      <div class="foot-col">
+        <strong>Contact</strong>
+        <a href="#">rfs@2027.dev</a>
+        <a href="#">Press</a>
+        <a href="#">X</a>
+      </div>
+    </div>
+    <div class="colophon container" style="padding: 24px 32px 0;">
+      <span>© 2027 Inc. · A delaware C-corp incorporated by humans.</span>
+      <span>Set in Newsreader & IBM Plex.</span>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
