@@ -317,21 +317,19 @@
 
   <p>Here is a concrete example.</p>
 
-  <p>Suppose you have a recurring task: every few days, you want to know how many users signed up from organic search in the last 48 hours, compared to the previous 48 hours. In a traditional software factory, you would open five different files, edit a deployment manifest, and wait for CI to turn green.</p>
+  <p>Suppose your factory has a rule that skips the security verification agent for PRs tagged <code>docs-only</code>. One day a hotfix touches auth utilities but keeps the <code>docs-only</code> label because the developer forgot to update it. The factory merges it, and staging breaks because the password-reset flow was refactored without the security agent ever seeing it.</p>
 
-  <p>With a prompt-based configuration interface, the interaction is:</p>
+  <p>In a traditional software factory, fixing this means a human opens the CI config, adds a clause: <em>"for PRs touching auth, always run the security agent even if the labels say docs-only,"</em> commits, opens a PR, and waits for review.</p>
 
-  <blockquote>
-    <p>"How many signups from organic search in the last two days, compared to the two days before?"</p>
-  </blockquote>
-
-  <p>The agent fetches the data, does the math, explains the trend.</p>
+  <p>In a prompt-based configuration interface, the interaction is:</p>
 
   <blockquote>
-    <p>"Send me this every Tuesday morning."</p>
+    <p>"For PRs touching auth, always run the security agent even if the labels say docs-only."</p>
   </blockquote>
 
-  <p>That is it. There is no "deployment." There is no separate file to edit for the schedule. The configuration is a continuation of the conversation that proved the behavior was correct.</p>
+  <p>The agent understands which pipeline definition to patch, proposes the exact diff, and after you approve, applies it. The config file is edited. But you did not open it. The agent understood the intent in the same language you used to report the incident, mapped it to the right part of the system, and asked for permission.</p>
+
+  <p>That is the distinction: the config file is still there. What changed is who diagnosed the gap and who authored the fix.</p>
 
   <div class="section-bridge">&#10022;</div>
 
