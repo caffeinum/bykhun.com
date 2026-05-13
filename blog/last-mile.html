@@ -214,7 +214,6 @@
   <a href="#naive-answer">The Naive Answer, and Why It's Wrong</a>
   <a href="#prompt-box">The Prompt Box as Configuration Surface</a>
   <a href="#why-matters">Why This Matters for Software Factories</a>
-  <a href="#real-secret">The Real Secret</a>
 </nav>
 
 <div class="container">
@@ -342,22 +341,6 @@
   <p>What I keep returning to is this: <strong>a software factory should not need a separate configuration discipline.</strong> If a pipeline of agents can take a task, enrich its context, propose a plan, get approval, execute, verify, test, and merge — then that same pipeline should be able to reconfigure itself when told to, using the same approval gates.</p>
 
   <p>The configuration should happen through the prompt box. The agent should be able to modify its own workflow definition, present the change as a plan, get human approval, and then apply it. Not as a special mode, but as the normal continuation of how you already talk to it.</p>
-
-  <p>This is what I mean by self-configuring. Not "it has a config file that it edits." That is just automation of a bad pattern. I mean: the human and the agent negotiate a new behavior in the same language they used to negotiate the original task, and the new behavior persists because the system remembers the conversation, not because someone opened a file.</p>
-
-  <div class="section-bridge">&#10022;</div>
-
-  <h2 id="real-secret"><span class="section-num">VI.</span> The Real Secret</h2>
-
-  <p>People talk a lot about self-healing systems. In my experience, self-healing is the easy aspiration. A system that detects its own failures and restarts processes is straightforward to build.</p>
-
-  <p>Self-configuration is harder, because it touches intent. It requires the system to understand that when you say "from now on, do this differently," you are not asking for a new Docker image. You are asking for a new disposition.</p>
-
-  <p>The insight that took me months to reach is not that we need better agents. The agents are already good enough. The insight is that <strong>the interface we use to command them and the interface we use to configure them should be the same thing.</strong> Every time we force a human to open a config file to change agent behavior, we have reintroduced the bottleneck we were trying to remove.</p>
-
-  <p>A software factory that can write code, verify tests, and merge PRs — but still requires a human to edit YAML to change its own scheduling rules — has not solved the last mile problem. It has just moved it one layer deeper, where it is harder to see.</p>
-
-  <p>The future factory will not be distinguished by having more agents. It will be distinguished by the fact that no human ever opens a config file to tell it what to do.</p>
 
 </div>
 
