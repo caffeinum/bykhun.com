@@ -1,0 +1,404 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Last Mile Problem of Software Factories | Aleksey Bykhun</title>
+
+<meta property="og:type" content="article">
+<meta property="og:title" content="The Last Mile Problem of Software Factories">
+<meta property="og:description" content="A software factory can write code, verify tests, and merge PRs. But it still requires a human to open a config file to change its own scheduling rules. This is the last mile problem nobody talks about.">
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="The Last Mile Problem of Software Factories">
+<meta name="twitter:description" content="A software factory can write code, verify tests, and merge PRs. But it still requires a human to open a config file to change what it does. This is the last mile problem.">
+<link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Source+Sans+3:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #faf8f4;
+    --text: #1a1a1a;
+    --text-muted: #5a5a5a;
+    --accent: #8b1a1a;
+    --border: #e0dcd4;
+    --blockquote-bg: #f0ede6;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Lora', Georgia, 'Times New Roman', serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.78;
+    font-size: 18px;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .container {
+    max-width: 680px;
+    margin: 0 auto;
+    padding: 60px 24px 120px;
+  }
+
+  .back {
+    display: inline-block;
+    margin-bottom: 20px;
+    font-family: 'Source Sans 3', sans-serif;
+    font-size: 14px;
+    color: var(--text-muted);
+    text-decoration: none;
+    letter-spacing: 0.5px;
+  }
+
+  .back:hover { color: var(--text); }
+
+  .site-header {
+    text-align: center;
+    padding-bottom: 40px;
+    margin-bottom: 48px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .site-name {
+    font-family: 'Source Sans 3', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-bottom: 8px;
+  }
+
+  .site-date {
+    font-size: 14px;
+    color: var(--text-muted);
+    font-style: italic;
+  }
+
+  .article-title-section { margin-bottom: 48px; }
+
+  h1 {
+    font-family: 'Lora', Georgia, serif;
+    font-size: 38px;
+    font-weight: 700;
+    line-height: 1.22;
+    margin-bottom: 16px;
+    color: var(--text);
+  }
+
+  h2 {
+    font-family: 'Lora', Georgia, serif;
+    font-size: 26px;
+    font-weight: 600;
+    margin-top: 56px;
+    margin-bottom: 20px;
+    line-height: 1.3;
+    color: var(--text);
+  }
+
+  h2 .section-num {
+    color: var(--accent);
+    font-weight: 700;
+  }
+
+  .section-bridge {
+    text-align: center;
+    color: var(--text-muted);
+    font-size: 14px;
+    letter-spacing: 4px;
+    padding: 32px 0 0;
+  }
+
+  p { margin-bottom: 18px; }
+  em { font-style: italic; }
+  strong { font-weight: 600; }
+
+  .hook {
+    font-size: 19px;
+    line-height: 1.82;
+  }
+
+  a {
+    color: var(--accent);
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 2px;
+  }
+
+  ol {
+    margin-left: 24px;
+    margin-bottom: 18px;
+  }
+
+  ol li {
+    margin-bottom: 8px;
+    padding-left: 8px;
+  }
+
+  blockquote {
+    margin: 24px 0;
+    padding: 18px 24px;
+    background: var(--blockquote-bg);
+    border-left: 3px solid var(--accent);
+    font-style: italic;
+    color: var(--text-muted);
+  }
+
+  blockquote p:last-child { margin-bottom: 0; }
+
+  /* TOC sidebar */
+  .toc-nav {
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: calc((100vw - 680px) / 2 - 24px);
+    max-width: 220px;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 40px 20px 40px 32px;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.4s ease;
+  }
+
+  .toc-nav.visible {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  .toc-nav a {
+    display: block;
+    font-family: 'Source Sans 3', sans-serif;
+    font-size: 12.5px;
+    font-weight: 400;
+    line-height: 1.4;
+    color: var(--text-muted);
+    text-decoration: none;
+    padding: 5px 0 5px 12px;
+    border-left: 1.5px solid transparent;
+    transition: color 0.2s ease, border-color 0.2s ease;
+    opacity: 0.5;
+  }
+
+  .toc-nav a:hover {
+    color: var(--text);
+    opacity: 1;
+  }
+
+  .toc-nav a.active {
+    color: var(--accent);
+    border-left-color: var(--accent);
+    opacity: 1;
+    font-weight: 600;
+  }
+
+  @media (max-width: 1100px) {
+    .toc-nav { display: none; }
+  }
+
+  @media (max-width: 600px) {
+    body { font-size: 17px; }
+    h1 { font-size: 30px; }
+    h2 { font-size: 22px; }
+    .container { padding: 40px 20px 80px; }
+  }
+</style>
+</head>
+<body>
+
+<nav class="toc-nav" id="toc">
+  <a href="#what-factory">What a Software Factory Actually Is</a>
+  <a href="#missing-stage">The Missing Stage</a>
+  <a href="#naive-answer">The Naive Answer, and Why It's Wrong</a>
+  <a href="#prompt-box">The Prompt Box as Configuration Surface</a>
+  <a href="#why-matters">Why This Matters for Software Factories</a>
+  <a href="#real-secret">The Real Secret</a>
+</nav>
+
+<div class="container">
+
+  <a href="index.html" class="back">&larr; back to blog</a>
+
+  <header class="site-header">
+    <div class="site-name">May 2026</div>
+    <div class="site-date">by Aleksey Bykhun</div>
+  </header>
+
+  <div class="article-title-section">
+    <h1>The Last Mile Problem of Software Factories</h1>
+  </div>
+
+  <div class="hook">
+    <p>Economists talk about the "last mile problem" — getting a package from a regional hub to a doorstep is expensive precisely because the autonomous scale vanishes at the boundary. Software automation has an analogous last mile. You can have agents enrich context, propose plans, write code, verify it, and merge to staging. But the last mile — the one where someone decides the factory <em>should</em> verify code this way, or that the staging gate needs a new threshold — is still driven by a human with a YAML file.</p>
+
+    <p>We solved every problem except configuration. It turned out configuration was the thing we were trying to escape.</p>
+  </div>
+
+  <h2 id="what-factory"><span class="section-num">I.</span> What a Software Factory Actually Is</h2>
+
+  <p>For the past few years, the industry has been converging on something that now has a name: the <em>software factory</em>.</p>
+
+  <p>This is not a coding agent. A coding agent is a single thing: you give it a task, it generates a pull request, and maybe it passes tests. A software factory is an orchestrated pipeline of agents working in sequence, with human gates between them.</p>
+
+  <p>Here is a sketch of the factory as it already exists inside most companies that have tried to operationalize this:</p>
+
+  <ol>
+    <li><strong>Task intake.</strong> A ticket comes in — from Linear, Jira, a Slack message, or a human who just noticed something is broken.</li>
+    <li><strong>Context enrichment.</strong> An agent takes the raw ticket and fetches related code, recent commits, previous PRs on the same subsystem, error logs, maybe the internal wiki. It produces an expanded brief.</li>
+    <li><strong>Planning.</strong> A coding agent reads the enriched brief and proposes a solution — which files to touch, which dependencies to update, which tests to write.</li>
+    <li><strong>Human plan approval.</strong> Someone — usually a human engineer — reads the plan and either approves it, rejects it, or requests changes. If you are building actual systems, this gate is load-bearing.</li>
+    <li><strong>Execution.</strong> The approved plan is passed to an agent that writes the code, or to the same agent in a different mode. It generates files, runs linters, formats.</li>
+    <li><strong>Pull request.</strong> The change is opened as a PR.</li>
+    <li><strong>Verification.</strong> Separate agents — or the same agent in a different context — review the code. Security checks, pattern matching, dependency scanning, static analysis.</li>
+    <li><strong>Testing.</strong> Agents run the test suite, maybe add new tests, check coverage regressions.</li>
+    <li><strong>Merge.</strong> If thresholds are met, the PR is merged.</li>
+    <li><strong>Staging.</strong> Crucially, the factory does not auto-deploy to production. Multiple PRs accumulate in a staging environment. Humans test the <em>sum</em> of changes together.</li>
+    <li><strong>Production.</strong> Only after human sign-off on staging does the release go out.</li>
+  </ol>
+
+  <p>This pipeline is real. I did not invent it. You can see versions of this at companies that have spent the last two years wiring agents into their CI/CD systems. It is impressive, legible, and in some ways already working.</p>
+
+  <p>But there is a problem.</p>
+
+  <div class="section-bridge">&#10022;</div>
+
+  <h2 id="missing-stage"><span class="section-num">II.</span> The Missing Stage</h2>
+
+  <p>Look at the pipeline again and ask a simple question: <strong>who configures the factory?</strong></p>
+
+  <p>Not the code that the factory produces. The <em>factory itself</em>.</p>
+
+  <p>If you want to add a new verification gate — say, a check that all new database queries use an index — this is currently done by opening an editor, writing a new rule or agent prompt or test config, committing it, getting it reviewed, and merging. If you want to change the threshold for test coverage, you edit a hardcoded number. If you want the factory to start handling tickets from a different source, you update an integration. If you want it to run a different set of checks on Mondays because your traffic pattern changes, someone writes a cron expression.</p>
+
+  <p>In other words, <strong>the software factory, which automates everything, is itself configured by a process that resembles the old manual workflow.</strong> The factory has a heartbeat, but it does not have a nervous system.</p>
+
+  <p>This is the last mile problem.</p>
+
+  <p>It is surprising how long it took me to notice this, because I was building one of these factories. The agents were running. The pipeline was green. But every time I wanted to adapt the pipeline — really adapt it, not just tweak a parameter — I was back at a text editor, reasoning through PRs.</p>
+
+  <div class="section-bridge">&#10022;</div>
+
+  <h2 id="naive-answer"><span class="section-num">III.</span> The Naive Answer, and Why It's Wrong</h2>
+
+  <p>For a while I thought about what makes a project like OpenClaw work. The naive answer — the first answer most people give — is that it is for non-technical users. You run it on your computer, it connects to Telegram, and you can ask it things like "find me cheap flights to Berlin."</p>
+
+  <p>This is true, but it is not the important part.</p>
+
+  <p>The important part is what happens <strong>after</strong> the first technical setup.</p>
+
+  <p>After you install it once — which is, yes, technically complex — every subsequent interaction with the system happens through the <strong>same interface</strong> you use to talk to it. The interface is not split into "user chat" and "admin config." There is one channel. You tell it to find flights. It finds them. Then you say: "Do this every week." And it does.</p>
+
+  <p>I want to emphasize how strange this is, because we have been trained to treat these as completely different operations.</p>
+
+  <p>In a conventional software factory, if you wanted a weekly job to exist, you would:</p>
+
+  <ul style="margin-left:24px;margin-bottom:18px">
+    <li style="margin-bottom:6px">Write the automation code</li>
+    <li style="margin-bottom:6px">Test it</li>
+    <li style="margin-bottom:6px">Add a cron schedule, or a timer, or a workflow trigger</li>
+    <li style="margin-bottom:6px">Commit it</li>
+    <li style="margin-bottom:6px">Open a PR</li>
+    <li style="margin-bottom:6px">Get it reviewed</li>
+    <li style="margin-bottom:6px">Merge it</li>
+    <li style="margin-bottom:6px">Verify it in staging</li>
+    <li style="margin-bottom:6px">Fix the bug where you used UTC instead of local time</li>
+    <li style="margin-bottom:6px">Merge again</li>
+  </ul>
+
+  <p>In a prompt-based interface, you say: "Now do this every week." The agent has context. It remembers what you just wanted, what parameters worked, what the output looked like. It does not ask you to translate your intent into a different language — YAML, cron syntax, or Go — because the language you are already using is sufficient. It saves the behavior because the <em>same conversation</em> is the configuration.</p>
+
+  <p>This is the part that feels obvious in retrospect and invisible before you have seen it.</p>
+
+  <div class="section-bridge">&#10022;</div>
+
+  <h2 id="prompt-box"><span class="section-num">IV.</span> The Prompt Box as Configuration Surface</h2>
+
+  <p>Here is a concrete example.</p>
+
+  <p>Suppose you have a recurring task: every few days, you want to know how many users signed up from organic search in the last 48 hours, compared to the previous 48 hours. In a traditional software factory, you would open five different files, edit a deployment manifest, and wait for CI to turn green.</p>
+
+  <p>With a prompt-based configuration interface, the interaction is:</p>
+
+  <blockquote>
+    <p>"How many signups from organic search in the last two days, compared to the two days before?"</p>
+  </blockquote>
+
+  <p>The agent fetches the data, does the math, explains the trend.</p>
+
+  <blockquote>
+    <p>"Send me this every Tuesday morning."</p>
+  </blockquote>
+
+  <p>That is it. There is no "deployment." There is no separate file to edit for the schedule. The configuration is a continuation of the conversation that proved the behavior was correct.</p>
+
+  <div class="section-bridge">&#10022;</div>
+
+  <h2 id="why-matters"><span class="section-num">V.</span> Why This Matters for Software Factories</h2>
+
+  <p>The software factory pipeline I described earlier is good at producing code. It is not good at <em>changing what it itself does</em>.</p>
+
+  <p>If you want the factory to start weighting security checks more heavily, or to skip the staging gate for hotfixes under a certain condition, or to route documentation-only changes through a lighter verification lane — these are <em>configurations</em>, and in current systems they require the same manual PR-review-merge cycle that the factory was supposed to eliminate.</p>
+
+  <p>What I keep returning to is this: <strong>a software factory should not need a separate configuration discipline.</strong> If a pipeline of agents can take a task, enrich its context, propose a plan, get approval, execute, verify, test, and merge — then that same pipeline should be able to reconfigure itself when told to, using the same approval gates.</p>
+
+  <p>The configuration should happen through the prompt box. The agent should be able to modify its own workflow definition, present the change as a plan, get human approval, and then apply it. Not as a special mode, but as the normal continuation of how you already talk to it.</p>
+
+  <p>This is what I mean by self-configuring. Not "it has a config file that it edits." That is just automation of a bad pattern. I mean: the human and the agent negotiate a new behavior in the same language they used to negotiate the original task, and the new behavior persists because the system remembers the conversation, not because someone opened a file.</p>
+
+  <div class="section-bridge">&#10022;</div>
+
+  <h2 id="real-secret"><span class="section-num">VI.</span> The Real Secret</h2>
+
+  <p>People talk a lot about self-healing systems. In my experience, self-healing is the easy aspiration. A system that detects its own failures and restarts processes is straightforward to build.</p>
+
+  <p>Self-configuration is harder, because it touches intent. It requires the system to understand that when you say "from now on, do this differently," you are not asking for a new Docker image. You are asking for a new disposition.</p>
+
+  <p>The insight that took me months to reach is not that we need better agents. The agents are already good enough. The insight is that <strong>the interface we use to command them and the interface we use to configure them should be the same thing.</strong> Every time we force a human to open a config file to change agent behavior, we have reintroduced the bottleneck we were trying to remove.</p>
+
+  <p>A software factory that can write code, verify tests, and merge PRs — but still requires a human to edit YAML to change its own scheduling rules — has not solved the last mile problem. It has just moved it one layer deeper, where it is harder to see.</p>
+
+  <p>The future factory will not be distinguished by having more agents. It will be distinguished by the fact that no human ever opens a config file to tell it what to do.</p>
+
+</div>
+
+<script>
+(function() {
+  const toc = document.getElementById('toc');
+  const links = toc.querySelectorAll('a');
+  const sections = Array.from(links).map(a => ({
+    link: a,
+    target: document.querySelector(a.getAttribute('href'))
+  }));
+
+  const titleSection = document.querySelector('.article-title-section');
+
+  const showObserver = new IntersectionObserver(([entry]) => {
+    toc.classList.toggle('visible', !entry.isIntersecting);
+  }, { threshold: 0 });
+  showObserver.observe(titleSection);
+
+  const sectionObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        links.forEach(l => l.classList.remove('active'));
+        const match = sections.find(s => s.target === entry.target);
+        if (match) match.link.classList.add('active');
+      }
+    });
+  }, { rootMargin: '-10% 0px -80% 0px' });
+
+  sections.forEach(s => { if (s.target) sectionObserver.observe(s.target); });
+
+  links.forEach(a => {
+    a.addEventListener('click', (e) => {
+      e.preventDefault();
+      const target = document.querySelector(a.getAttribute('href'));
+      if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+  });
+})();
+</script>
+</body>
+</html>
